@@ -2,3 +2,4 @@ resources/
 *.cmp
 *.tst
 *.zip
+*.out
