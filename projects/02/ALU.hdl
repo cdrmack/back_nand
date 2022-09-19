@@ -42,24 +42,24 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-    Mux16 (a=x, b=false, sel=zx, out=zxOut); // zero the x input
-    Mux16 (a=y, b=false, sel=zy, out=zyOut); // zero the y input
+    Mux16(a=x, b=false, sel=zx, out=zxOut); // zero the x input
+    Mux16(a=y, b=false, sel=zy, out=zyOut); // zero the y input
 
-    Not16 (in=zxOut, out=notzxOut);
-    Mux16 (a=zxOut, b=notzxOut, sel=nx, out=nxOut); // negate the x input
+    Not16(in=zxOut, out=notzxOut);
+    Mux16(a=zxOut, b=notzxOut, sel=nx, out=nxOut); // negate the x input
 
-    Not16 (in=zyOut, out=notzyOut);
-    Mux16 (a=zyOut, b=notzyOut, sel=ny, out=nyOut); // negate the y input
+    Not16(in=zyOut, out=notzyOut);
+    Mux16(a=zyOut, b=notzyOut, sel=ny, out=nyOut); // negate the y input
 
-    And16 (a=nxOut, b=nyOut, out=andFunction);
-    Add16 (a=nxOut, b=nyOut, out=addFunction);
-    Mux16 (a=andFunction, b=addFunction, sel=f, out=outFunction); // function code: 1 for Add, 0 for And
+    And16(a=nxOut, b=nyOut, out=andFunction);
+    Add16(a=nxOut, b=nyOut, out=addFunction);
+    Mux16(a=andFunction, b=addFunction, sel=f, out=outFunction); // function code: 1 for Add, 0 for And
 
-    Not16 (in=outFunction, out=notoutFunction);
-    Mux16 (a=outFunction, b=notoutFunction, sel=no, out=out, out[0..7]=tmp01, out[8..15]=tmp02, out[15]=ng); // negate the out output, set ng to true iff out<0
+    Not16(in=outFunction, out=notoutFunction);
+    Mux16(a=outFunction, b=notoutFunction, sel=no, out=out, out[0..7]=tmp01, out[8..15]=tmp02, out[15]=ng); // negate the out output, set ng to true iff out<0
 
-    Or8Way (in=tmp01, out=notZero1);
-    Or8Way (in=tmp02, out=notZero2);
-    Or (a=notZero1, b=notZero2, out=isNotZero);
-    Mux (a=true, b=false, sel=isNotZero, out=zr); // set zr to true iff out=0
+    Or8Way(in=tmp01, out=notZero1);
+    Or8Way(in=tmp02, out=notZero2);
+    Or(a=notZero1, b=notZero2, out=isNotZero);
+    Mux(a=true, b=false, sel=isNotZero, out=zr); // set zr to true iff out=0
 }
